@@ -8,6 +8,7 @@
         background-color: #f5f5f5;
         color: #475266;
         border-bottom: 2px solid #e8e8e8;
+        padding: 0px;
       "
     >
       <v-container style="display: flex; align-items: center">
@@ -19,17 +20,27 @@
       </v-container>
     </v-app-bar>
     <v-main style="background-color: #f5f5f5">
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
-        <v-list-item @click.native="right = !right">
+        <v-list-item>
           <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
+            <v-icon dark> mdi-account </v-icon>
           </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
+          <v-list-item-title>Account</v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-action>
+            <v-icon dark> mdi-inbox </v-icon>
+          </v-list-item-action>
+          <v-list-item-title>Inbox</v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-action>
+            <v-icon dark> mdi-logout </v-icon>
+          </v-list-item-action>
+          <v-list-item-title>Sign Out</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
