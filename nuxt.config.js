@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - prv-profile-dashboard-vue',
-    title: 'prv-profile-dashboard-vue',
+    titleTemplate: '%s - task-me',
+    title: 'task-me',
     htmlAttrs: {
       lang: 'en',
     },
@@ -14,7 +14,13 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -35,7 +41,19 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+
+  modules: ['@nuxtjs/axios'],
+  axios: {
+    // baseURL: 'http://pretest-qa.dcidev.id/api/v1/',
+    proxy: true,
+  },
+
+  proxy: {
+    '/api/': {
+      target: 'http://pretest-qa.dcidev.id/api/v1/',
+      pathRewrite: { '^/api/': '' },
+    },
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

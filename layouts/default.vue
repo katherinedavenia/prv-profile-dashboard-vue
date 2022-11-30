@@ -12,7 +12,9 @@
       "
     >
       <v-container style="display: flex; align-items: center">
-        <v-toolbar-title style="font-weight: 600">{{ title }}</v-toolbar-title>
+        <v-toolbar-title style="font-weight: 600">
+          Welcome to your dashboard, {{ userData.name }}!</v-toolbar-title
+        >
         <v-spacer />
         <v-btn icon @click.stop="rightDrawer = !rightDrawer">
           <v-icon color="#475266">mdi-menu</v-icon>
@@ -67,6 +69,12 @@
 <script>
 export default {
   name: 'DefaultLayout',
+  props: {
+    name: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       clipped: false,
@@ -87,8 +95,12 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Welcome to your dashboard!',
     }
+  },
+  computed: {
+    userData() {
+      return this.$store.getters.getUser
+    },
   },
 }
 </script>

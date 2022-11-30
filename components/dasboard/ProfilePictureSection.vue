@@ -1,7 +1,7 @@
 <template>
   <div
     class="profile-picture"
-    :class="{ 'default-profile': !userPicture }"
+    :class="{ 'default-profile': !user_picture }"
   ></div>
 </template>
 
@@ -9,7 +9,7 @@
 export default {
   name: 'ProfilePictureSection',
   props: {
-    userPicture: {
+    user_picture: {
       type: Object,
       default: () => {},
     },

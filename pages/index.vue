@@ -4,61 +4,106 @@
     <v-container style="padding: 0px; margin-bottom: 50px">
       <v-col class="content-container">
         <profile-picture-section />
-        <bio-section>
+        <bio-section :submit-biodata="submitBiodata">
           <div class="bio-indent">
-            <v-text-field v-model="userData.name" placeholder="Name" light />
+            <v-text-field
+              v-model="userData.name"
+              placeholder="Name"
+              class="mt-0 pt-0"
+              light
+            />
             <div class="bio-flex-d">
               <v-text-field
                 v-model="userData.hometown"
-                class="mr-6"
+                class="mt-0 pt-0 mr-6"
                 placeholder="Town"
                 light
               />
               <v-text-field
                 v-model="userData.gender"
-                class="mr-6"
+                class="mt-0 pt-0 mr-6"
                 placeholder="Gender"
                 light
               />
               <v-text-field
                 v-model="userData.birthday"
                 placeholder="Birthday"
+                class="mt-0 pt-0"
                 light
               />
             </div>
           </div>
-          <v-text-field v-model="userData.bio" placeholder="Bio" light />
+          <v-textarea
+            v-model="userData.bio"
+            class="mt-0 pt-0"
+            placeholder="Bio"
+            light
+          />
         </bio-section>
         <div class="bio-flex-d" style="color: black; margin-bottom: 30px">
-          <experience-section>
-            <v-text-field
-              v-model="userData.companyName"
-              light
-              placeholder="Company Name"
-            />
-            <v-text-field
-              v-model="userData.startingFrom"
-              light
-              placeholder="Starting From"
-            />
-            <v-text-field
-              v-model="userData.endingIn"
-              light
-              placeholder="Ending In"
-            />
-          </experience-section>
-          <education-section>
-            <v-text-field
-              v-model="userData.schoolName"
-              light
-              placeholder="School Name"
-            />
-            <v-text-field
-              v-model="userData.graduationTime"
-              light
-              placeholder="Graduated At"
-            />
-          </education-section>
+          <div class="bio-details-item bio-details-item1">
+            <div class="row-between">
+              <p class="text-h5" style="font-weight: 600; margin-bottom: 0px">
+                Experience
+              </p>
+              <v-icon
+                color="blue"
+                style="width: 25px; height: 25px"
+                @click="experienceIsOpen = !experienceIsOpen"
+                >mdi-plus</v-icon
+              >
+            </div>
+            <experience-section
+              :submit-experience="submitExperience"
+              :experience-is-open="experienceIsOpen"
+              :career="career"
+            >
+              <v-text-field
+                v-model="userData.career.company_name"
+                light
+                placeholder="Company Name"
+              />
+              <v-text-field
+                v-model="userData.career.starting_from"
+                light
+                placeholder="Starting From"
+              />
+              <v-text-field
+                v-model="userData.career.ending_in"
+                light
+                placeholder="Ending In"
+              />
+            </experience-section>
+          </div>
+          <div class="bio-details-item bio-details-item2">
+            <div class="row-between">
+              <p class="text-h5" style="font-weight: 600; margin-bottom: 0px">
+                Education
+              </p>
+              <v-icon
+                color="blue"
+                style="width: 25px; height: 25px"
+                @click="educationIsOpen = !educationIsOpen"
+                >mdi-plus</v-icon
+              >
+            </div>
+            <education-section
+              :submit-education="submitEducation"
+              :education-is-open="educationIsOpen"
+              :education="education"
+            >
+              <v-text-field
+                v-model="userData.education.school_name"
+                light
+                placeholder="School Name"
+              />
+              <v-text-field
+                v-model="userData.education.graduation_time"
+                light
+                placeholder="Graduated At"
+              />
+            </education-section>
+          </div>
         </div>
         <album-section />
       </v-col>
@@ -84,6 +129,7 @@ export default {
     EducationSection,
     AlbumSection,
   },
+  middleware: 'auth',
   data() {
     return {
       userData: {
@@ -92,33 +138,86 @@ export default {
         gender: '',
         birthday: '',
         bio: '',
-        experience: {
-          companyName: '',
-          startingFrom: '',
-          endingIin: '',
+        career: {
+          company_name: '',
+          starting_from: '',
+          ending_in: '',
         },
         education: {
-          schoolName: '',
-          graduationTime: '',
+          school_name: '',
+          graduation_time: '',
         },
-        coverPicture: {
+        cover_picture: {
           url: '',
         },
-        userPicture: {
+        user_picture: {
           picture: {
             url: '',
           },
         },
-        userPictures: [],
+        user_pictures: [],
       },
       experienceIsOpen: false,
       educationIsOpen: false,
     }
   },
+  computed: {
+    users() {
+      return this.$store.getters.getUser
+    },
+    basic: {
+      get() {
+        return this.$store.getters.getUser
+      },
+    },
+  },
+  watch: {
+    users(newValue) {
+      this.userData = JSON.parse(JSON.stringify(newValue))
+    },
+  },
+  mounted() {
+    this.$store.dispatch('profile')
+  },
+  methods: {
+    submitBiodata() {
+      this.$store
+        .dispatch('dashboard/biodata', {
+          name: this.userData.name,
+          birthday: this.userData.birthday,
+          hometown: this.userData.hometown,
+          bio: this.userData.bio,
+        })
+        .catch((err) => {
+          console.error(err.response)
+        })
+    },
+    submitExperience() {
+      this.$store
+        .dispatch('dashboard/experience', {
+          company_name: this.userData.career.company_name,
+          starting_from: this.userData.career.starting_from,
+          ending_in: this.userData.career.ending_in,
+        })
+        .catch((err) => {
+          console.error(err.response)
+        })
+    },
+    submitEducation() {
+      this.$store
+        .dispatch('dashboard/education', {
+          school_name: this.userData.education.school_name,
+          graduation_time: this.userData.education.graduation_time,
+        })
+        .catch((err) => {
+          console.error(err.response)
+        })
+    },
+  },
 }
 </script>
 
-<style>
+<style scoped>
 .profile-picture {
   height: 200px;
   width: 200px;

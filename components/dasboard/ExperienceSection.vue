@@ -1,43 +1,34 @@
 <template>
-  <div class="bio-details-item bio-details-item1">
-    <div class="row-between">
-      <p class="text-h5" style="font-weight: 600; margin-bottom: 0px">
-        Experience
-      </p>
-      <v-icon color="blue">mdi-plus</v-icon>
-    </div>
-    <div class="col-center">
-      <p
-        v-if="!experienceIsOpen && !experience"
-        class="text-body-1"
-        style="color: silver; padding: 30px"
-      >
-        Add your experience now
-      </p>
-      <div v-else class="add-item-container">
-        <p class="text-h6" style="font-weight: 600">Add New Experience</p>
-        <slot></slot>
-        <div class="buttons-group">
-          <v-btn color="primary" elevation="2" style="margin-right: 8px">
-            <v-icon color="#fff">mdi-content-save</v-icon> Save
-          </v-btn>
-          <v-btn color="accent" elevation="2">Cancel</v-btn>
-        </div>
+  <div class="col-center">
+    <p
+      v-if="!experienceIsOpen && !career"
+      class="text-body-1"
+      style="color: silver; padding: 30px"
+    >
+      Add your experience now
+    </p>
+    <div v-if="experienceIsOpen" class="add-item-container">
+      <p class="text-h6" style="font-weight: 600">Add New Experience</p>
+      <slot></slot>
+      <div class="button-end">
+        <v-btn color="primary" elevation="2" @click="submitExperience">
+          <v-icon color="#fff">mdi-content-save</v-icon> Save
+        </v-btn>
       </div>
-      <div
-        v-if="companyName && startingFrom && endingIn"
-        class="item-container"
-      >
-        <div class="gradient-square"></div>
-        <div>
-          <p class="text-h6" style="font-weight: 600; margin-bottom: 0">
-            Employee
-          </p>
-          <p class="text-body2" style="margin-bottom: 0">{{ companyName }}</p>
-          <p class="text-body2" style="margin-bottom: 0">
-            {{ startingFrom }} - {{ endingIn }}
-          </p>
-        </div>
+    </div>
+    <div
+      v-if="company_name && starting_from && ending_in"
+      class="item-container"
+    >
+      <div class="gradient-square"></div>
+      <div>
+        <p class="text-h6" style="font-weight: 600; margin-bottom: 0">
+          Employee
+        </p>
+        <p class="text-body2" style="margin-bottom: 0">{{ company_name }}</p>
+        <p class="text-body2" style="margin-bottom: 0">
+          {{ starting_from }} - {{ ending_in }}
+        </p>
       </div>
     </div>
   </div>
@@ -51,8 +42,12 @@ export default {
       type: Boolean,
       default: false,
     },
-    experience: {
+    career: {
       type: Object,
+      default: () => {},
+    },
+    submitExperience: {
+      type: Function,
       default: () => {},
     },
   },
@@ -101,7 +96,7 @@ export default {
   margin: 16px 0px;
 }
 
-.buttons-group {
+.button-end {
   display: flex;
   justify-content: flex-end;
   width: 100%;

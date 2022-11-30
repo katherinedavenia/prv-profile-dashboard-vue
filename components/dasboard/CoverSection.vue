@@ -1,5 +1,5 @@
 <template>
-  <v-card class="cover-picture" :class="{ 'default-cover': !coverPicture }">
+  <v-card class="cover-picture" :class="{ 'default-cover': !cover_picture }">
     <v-container style="padding: 0px; height: 300px; position: relative">
       <v-file-input
         hide-input
@@ -14,7 +14,7 @@
 export default {
   name: 'CoverSection',
   props: {
-    coverPicture: {
+    cover_picture: {
       type: Object,
       default: () => {},
     },

@@ -36,7 +36,7 @@
 export default {
   name: 'AlbumSection',
   props: {
-    userPictures: {
+    user_pictures: {
       type: Array,
       default: () => [],
     },
